@@ -22,7 +22,9 @@ Vagrant.configure(2) do |config|
   config.vm.network "forwarded_port", guest: 3389, host: PORT, auto_correct: true
   config.vm.synced_folder '.', '/vagrant', disabled: true
   ["jre8", "pginafork"].each do |f|
-    config.vm.provision "file", source: "./cache/#{f}", destination:"C:\\Users\\Administrator\\AppData\\Local\\Temp\\chocolatey\\#{f}"
+    if File.exist?("./cache/#{f}")
+      config.vm.provision "file", source: "./cache/#{f}", destination:"C:\\Users\\Administrator\\AppData\\Local\\Temp\\chocolatey\\#{f}"
+    end
   end
   ["Operacoes.lnk", "Mount Operacoes.bat"].each do |f|
     config.vm.provision "file", source: "#{f}", destination: "C:\\Users\\Public\\Desktop\\#{f}"
